@@ -354,6 +354,13 @@ stages:
       clusterName: "swifte2e"
       osSku: "Ubuntu"
 
+  - template: singletenancy/aks-custom-cni-windows/e2e-job-template.yaml
+    parameters:
+      name: "aks_custom_cni_windows"
+      displayName: AKS Custom CNI Windows
+      pipelineBuildImage: "$(BUILD_IMAGE)"
+      clusterName: "wincustomcni"
+
   - template: singletenancy/aks-engine/e2e-job-template.yaml
     parameters:
       name: "ubuntu_18_04_linux_e2e"

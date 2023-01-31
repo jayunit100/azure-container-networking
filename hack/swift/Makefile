@@ -118,6 +118,31 @@ swift-byocni-up: rg-up swift-net-up ## Bring up a SWIFT BYO CNI cluster
 		--yes
 	@$(MAKE) set-kubeconf
 
+byocniwin-up: rg-up swift-net-up ## Bring up a SWIFT BYO CNI cluster
+	$(AZCLI) aks create -n $(CLUSTER) -g $(GROUP) -l $(REGION) \
+		--node-count 2 \
+		--node-vm-size $(VM_SIZE) \
+		--load-balancer-sku basic \
+		--network-plugin none \
+		--vnet-subnet-id /subscriptions/$(SUB)/resourceGroups/$(GROUP)/providers/Microsoft.Network/virtualNetworks/$(VNET)/subnets/nodenet \
+		--pod-subnet-id /subscriptions/$(SUB)/resourceGroups/$(GROUP)/providers/Microsoft.Network/virtualNetworks/$(VNET)/subnets/podnet \
+		--no-ssh-key \
+		--os-sku Ubuntu \
+		--yes
+
+	$(AZCLI) aks nodepool add  -n $(CLUSTER) -g $(GROUP) -l $(REGION) \
+		--node-count 2 \
+		--node-vm-size $(VM_SIZE) \
+		--load-balancer-sku basic \
+		--network-plugin none \
+		--vnet-subnet-id /subscriptions/$(SUB)/resourceGroups/$(GROUP)/providers/Microsoft.Network/virtualNetworks/$(VNET)/subnets/nodenet \
+		--pod-subnet-id /subscriptions/$(SUB)/resourceGroups/$(GROUP)/providers/Microsoft.Network/virtualNetworks/$(VNET)/subnets/podnet \
+		--no-ssh-key \
+		--os-sku Ubuntu \
+		--yes
+
+	@$(MAKE) set-kubeconf
+
 swift-cilium-up: rg-up swift-net-up ## Bring up a SWIFT Cilium cluster
 	$(AZCLI) aks create -n $(CLUSTER) -g $(GROUP) -l $(REGION) \
 		--node-count 2 \
