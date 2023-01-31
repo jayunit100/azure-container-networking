@@ -100,26 +100,4 @@ steps:
     name: "hostportConformance"
     displayName: "Run HostPort Conformance Tests"
 
-  - script: |
-      ARTIFACT_DIR=$(Build.ArtifactStagingDirectory)/aks-swift-output/
-      echo $ARTIFACT_DIR
-      sudo rm -rf $ARTIFACT_DIR
-      sudo rm -rf test/integration/logs
-    name: "Cleanupartifactdir"
-    displayName: "Cleanup artifact dir"
-    condition: always()
 
-  - task: AzureCLI@2
-    inputs:
-      azureSubscription: "Azure Container Networking - Test"
-      scriptLocation: "inlineScript"
-      scriptType: "bash"
-      addSpnToEnvironment: true
-      inlineScript: |
-        echo "Deleting cluster"
-        make -C ./hack/swift azcfg AZCLI=az REGION=$(REGION_AKS_CLUSTER_TEST)
-        make -C ./hack/swift down AZCLI=az REGION=$(REGION_AKS_CLUSTER_TEST) SUB=$(SUB_AZURE_NETWORK_AGENT_TEST) CLUSTER=${{ parameters.clusterName }}-${{ parameters.osSku }}-$(make revision)
-        echo "Cluster and resources down"
-    name: "Cleanupcluster"
-    displayName: "Cleanup cluster"
-    condition: always()
