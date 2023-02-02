@@ -218,6 +218,7 @@ stages:
               name: $(name)
               os: $(os)
               arch: $(arch)
+
       - job: containerize_cni_windows_amd64
         timeoutInMinutes: 120
         displayName: Build Windows CNI Image
@@ -226,6 +227,15 @@ stages:
         pool:
           name: "$(BUILD_POOL_NAME_WINDOWS_AMD64)"
         steps:
+          - template: containers/container-template-windows.yaml
+            parameters:
+              name: cni
+              arch: amd64
+              ai_path: tbd
+              ai_path_var: TBD
+              ai_id: tbd
+              ai_id_var: TBD
+              tag: $(TAG)
 
       - job: containerize_windows_amd64
         timeoutInMinutes: 120
@@ -367,7 +377,6 @@ stages:
     parameters:
       name: "aks_custom_cni_windows"
       displayName: AKS Custom CNI Windows
-      pipelineBuildImage: "$(BUILD_IMAGE)"
       clusterName: "wincustomcni"
 
   - template: singletenancy/aks-engine/e2e-job-template.yaml

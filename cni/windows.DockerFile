@@ -16,7 +16,7 @@ RUN choco feature disable --name showDownloadProgress
 ### Install golang
 RUN powershell -command choco install golang --version=1.19 -y
 WORKDIR /azure-container-networking
-COPY . .
+COPY build .
 
 SHELL ["cmd", "/S", "/C"]
 ## build azure cni for windows
