@@ -1,5 +1,5 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: apps/v1
+kind: DaemonSet
 metadata:
   name: azure-cni-windows
   labels:
@@ -7,10 +7,14 @@ metadata:
     app: azure-cni
   namespace: kube-system
 spec:
+  selector:
+    matchLabels:
+      app: azure-cni
   template:
     metadata:
       labels:
-        name: azure-cni
+        tier: node
+        app: azure-cni
     spec:
       affinity:
         nodeAffinity:
@@ -38,8 +42,8 @@ spec:
         operator: Exists
       - effect: NoExecute
         operator: Exists
-      containers:
-        - name: cni-drop
+      initContainers:
+        - name: cni-drop # Will run once per node
           image: acndev.azurecr.io/cni-test-windows:latest
           imagePullPolicy: Always
           volumeMounts:
@@ -47,7 +51,10 @@ spec:
               mountPath: /k/azurecni/bin/
             - name: cni-conflist
               mountPath: /k/azurecni/netconf/
-      restartPolicy: Never
+      containers:
+        - name: pause # Does nothing, hack to use a daemonset
+          image: mcr.microsoft.com/oss/kubernetes/pause:3.6
+          command: ["%CONTAINER_SANDBOX_MOUNT_POINT%/pause.exe"]
       volumes:
         - name: cni-conflist
           hostPath:

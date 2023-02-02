@@ -2,9 +2,7 @@ parameters:
   name: ""
   displayName: ""
   pipelineBuildImage: "$(BUILD_IMAGE)"
-  testDropgz: ""
   clusterName: ""
-  osSku: ""
 stages:
   - stage: ${{ parameters.name }}
     displayName: E2E - ${{ parameters.displayName }}
@@ -32,6 +30,4 @@ stages:
           - template: e2e-step-template.yaml
             parameters:
               name: ${{ parameters.name }}
-              testDropgz: ${{ parameters.testDropgz }}
               clusterName: ${{ parameters.clusterName }}
-              osSku: ${{ parameters.osSku }}

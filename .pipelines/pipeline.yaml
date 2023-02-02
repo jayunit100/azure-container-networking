@@ -218,6 +218,15 @@ stages:
               name: $(name)
               os: $(os)
               arch: $(arch)
+      - job: containerize_cni_windows_amd64
+        timeoutInMinutes: 120
+        displayName: Build Windows CNI Image
+        variables:
+          TAG: $[ stagedependencies.setup.env.outputs['EnvironmentalVariables.Tag'] ]
+        pool:
+          name: "$(BUILD_POOL_NAME_WINDOWS_AMD64)"
+        steps:
+
       - job: containerize_windows_amd64
         timeoutInMinutes: 120
         displayName: Build Images
