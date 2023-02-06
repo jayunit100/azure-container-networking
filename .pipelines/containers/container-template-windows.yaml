@@ -27,10 +27,10 @@ steps:
       --build-arg VERSION=windows-${{ parameters.arch }}-${{ parameters.tag }} \
       --build-arg ${{ parameters.ai_path_var }}=${{ parameters.ai_path }} \ 
       --build-arg ${{ parameters.ai_id_var }}=${{ parameters.ai_id }} \
-      -t acnpublic.azurecr.io/azure-${{ parameters.name }}:windows-${{ parameters.arch }}-${{ parameters.tag }}
+      -t acnpublic.azurecr.io/azure-${{ parameters.name }}:windows-${{ parameters.arch }}-${{ parameters.tag }} \
+      .
   name: image_build
   displayName: Image Build
-  retryCountOnTaskFailure: 3
 
 - task: Docker@2
   displayName: Logout

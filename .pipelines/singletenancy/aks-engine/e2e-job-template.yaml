@@ -11,8 +11,7 @@ stages:
   - stage: ${{ parameters.name }}
     displayName: E2E - ${{ parameters.displayName }}
     dependsOn: 
-    - setup
-    - publish
+    - containerize
     jobs:
       - job: ${{ parameters.name }}
         displayName: Singletenancy AKS Engine Suite - (${{ parameters.name }})
