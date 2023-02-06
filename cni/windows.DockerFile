@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/windows/servercore:ltsc2019 as Builder
+FROM mcr.microsoft.com/windows/servercore:ltsc2022 as Builder
 
 # Run as admin
 USER ContainerAdministrator

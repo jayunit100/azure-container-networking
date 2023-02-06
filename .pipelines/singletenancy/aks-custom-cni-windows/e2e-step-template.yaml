@@ -55,7 +55,7 @@ steps:
       scriptType: "bash"
       inlineScript: |
         kubectl apply -f cni/templates/cni-test-job-windows.yaml
-    displayName: "Configure windows pool in cluster"
+    displayName: "Update CNI in windows pool"
     condition: succeeded()
 
   - script: |
@@ -95,7 +95,6 @@ steps:
     inputs:
       azureSubscription: "Azure Container Networking - Test"
       scriptLocation: "inlineScript"
-      scriptType: "bash"
       addSpnToEnvironment: true
       inlineScript: |
         echo "Deleting cluster"
