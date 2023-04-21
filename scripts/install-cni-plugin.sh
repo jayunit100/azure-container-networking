@@ -11,7 +11,7 @@ CNI_NETCONF_DIR=/etc/cni/net.d
 function usage
 {
     printf "Installs azure-vnet CNI plugins.\n"
-    printf "See https://github.com/Azure/azure-container-networking releases for versions"
+    printf "See https://github.com/Azure/azure-container-networking/releases for versions\n"
     printf "Usage: install-cni-plugin version [pluginVersion]\n"
 }
 
